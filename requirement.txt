@@ -2,8 +2,5 @@ streamlit
 pandas
 numpy
 matplotlib
-mplfinance
 Pillow
-scipy
 requests
-kaleido
