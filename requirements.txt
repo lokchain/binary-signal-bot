@@ -4,3 +4,4 @@ mplfinance
 pillow
 numpy
 pandas
+scipy
