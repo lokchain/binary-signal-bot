@@ -14,6 +14,22 @@ import matplotlib.pyplot as plt
 import mplfinance as mpf
 import requests
 from scipy.signal import medfilt, find_peaks
+# --- Setup-key access gate (secrets-based) ---
+import streamlit as st
+
+VALID_KEYS = set(st.secrets["setup"]["VALID_KEYS"])
+
+st.sidebar.header("Access / Setup Key")
+user_key = st.sidebar.text_input("Enter your setup key", type="password")
+
+if not user_key:
+    st.sidebar.info("Enter your setup key to unlock the analyzer")
+    st.stop()
+
+if user_key not in VALID_KEYS:
+    st.sidebar.error("Invalid setup key. Contact admin.")
+    st.stop()
+# --- end gate ---
 
 # -----------------------------
 # Settings
