@@ -17,44 +17,23 @@ from scipy.signal import medfilt, find_peaks
 import streamlit as st
 import json, os, time
 
-# Load valid keys from Streamlit Secrets
-VALID_KEYS = set(st.secrets["setup"]["keys"])
+# --- Setup-key access gate (secrets-based) ---
+import streamlit as st
 
-# Path to file where used keys are stored
-USED_FILE = "used_keys.json"
-
-# Ensure file exists
-if not os.path.exists(USED_FILE):
-    with open(USED_FILE, "w") as f:
-        json.dump({}, f)
-
-# Load already used keys
-with open(USED_FILE, "r") as f:
-    used_keys = json.load(f)
+VALID_KEYS = set(st.secrets["setup"]["VALID_KEYS"])
 
 st.sidebar.header("Access / Setup Key")
 user_key = st.sidebar.text_input("Enter your setup key", type="password")
 
 if not user_key:
+    st.sidebar.info("Enter your setup key to unlock the analyzer")
     st.stop()
 
-# 1. Check if valid
 if user_key not in VALID_KEYS:
-    st.error("Invalid setup key")
+    st.sidebar.error("Invalid setup key. Contact admin.")
     st.stop()
+# --- end gate ---
 
-# 2. Check if already used
-if user_key in used_keys:
-    st.error("This key has already been used. Contact admin for new key.")
-    st.stop()
-
-# 3. Mark key as used
-used_keys[user_key] = {"used_at": time.time()}
-with open(USED_FILE, "w") as f:
-    json.dump(used_keys, f)
-
-# If passed all checks → allow access
-st.success("Access granted")
 
 # -----------------------------
 # Settings
