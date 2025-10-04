@@ -56,8 +56,6 @@ with open(USED_FILE, "w") as f:
 # If passed all checks → allow access
 st.success("Access granted")
 
-# --- end gate ---
-
 # -----------------------------
 # Settings
 # -----------------------------
